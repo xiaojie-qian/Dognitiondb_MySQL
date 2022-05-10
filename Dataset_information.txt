@@ -1,0 +1,139 @@
+# Database:dognitiondb
+
+## Tables: 
+complete_tests
+dogs
+exam_answers
+reviews
+site_activities
+users
+
+
+### Dogs table
+Field	Type	Null	Key	Default	Extra
+gender	varchar(255)	YES		None	
+birthday	varchar(255)	YES		None	
+breed	varchar(255)	YES		None	
+weight	int(11)	YES		None	
+dog_fixed	tinyint(1)	YES		None	
+dna_tested	tinyint(1)	YES		None	
+created_at	datetime	NO		None	
+updated_at	datetime	NO		None	
+dimension	varchar(255)	YES		None	
+exclude	tinyint(1)	YES		None	
+breed_type	varchar(255)	YES		None	
+breed_group	varchar(255)	YES		None	
+dog_guid	varchar(60)	YES	MUL	None	
+user_guid	varchar(60)	YES	MUL	None	
+total_tests_completed	varchar(255)	YES		None	
+mean_iti_days	varchar(255)	YES		None	
+mean_iti_minutes	varchar(255)	YES		None	
+median_iti_days	varchar(255)	YES		None	
+median_iti_minutes	varchar(255)	YES		None	
+time_diff_between_first_and_last_game_days	varchar(255)	YES		None	
+time_diff_between_first_and_last_game_minutes	varchar(255)	YES		None	
+
+### Sample Data
+ender	birthday	breed	weight	dog_fixed	dna_tested	created_at	updated_at	dimension	exclude	breed_type	breed_group	dog_guid	user_guid	total_tests_completed	mean_iti_days	mean_iti_minutes	median_iti_days	median_iti_minutes	time_diff_between_first_and_last_game_days	time_diff_between_first_and_last_game_minutes
+male	2012	Golden Retriever	70	0	1	2013-02-05 17:22:56	2013-07-25 19:41:49	None	None	Pure Breed	Sporting	fd27b6b4-7144-11e5-ba71-058fbc01cf0b	ce135ab8-7144-11e5-ba71-058fbc01cf0b	2	0.0091319445066	13.15000009	0.0091319445066	13.15000009	0.0091319445066	13.15000009
+male	2005	Beagle	30	1	1	2013-02-06 01:38:10	2014-05-29 20:34:17	expert	None	Pure Breed	Hound	fd27cd98-7144-11e5-ba71-058fbc01cf0b	ce136f94-7144-11e5-ba71-058fbc01cf0b	20	0.33541118421	482.99210526	0.0032291666102	4.6499999186	6.3728125	9176.85
+
+
+### Users table
+Field	Type	Null	Key	Default	Extra
+sign_in_count	int(11)	YES		0	
+created_at	datetime	NO		None	
+updated_at	datetime	NO		None	
+max_dogs	int(11)	YES		0	
+membership_id	int(11)	YES		None	
+subscribed	tinyint(1)	YES		0	
+exclude	tinyint(1)	YES		None	
+free_start_user	tinyint(1)	YES		None	
+last_active_at	datetime	YES		None	
+membership_type	int(11)	YES		None	
+user_guid	text	YES	MUL	None	
+city	varchar(255)	YES		None	
+state	varchar(255)	YES		None	
+zip	varchar(255)	YES		None	
+country	varchar(255)	YES		None	
+utc_correction	varchar(255)	YES		None	
+
+### Sample Data
+sign_in_count	created_at	updated_at	max_dogs	membership_id	subscribed	exclude	free_start_user	last_active_at	membership_type	user_guid	city	state	zip	country	utc_correction
+14	2013-02-05 03:52:02	2015-03-12 00:25:15	2	2	1	None	None	2015-03-12 00:25:15	2	ce134e42-7144-11e5-ba71-058fbc01cf0b	Grand Forks	ND	58201	US	-6
+181	2013-02-05 17:54:42	2015-01-28 20:51:49	13	2	1	1	0	None	2	ce135e14-7144-11e5-ba71-058fbc01cf0b	Raleigh	NC	27606	US	-5
+181	2013-02-05 17:54:42	2015-01-28 20:51:49	13	2	1	1	0	None	2	ce135e14-7144-11e5-ba71-058fbc01cf0b	Raleigh	NC	27606	US	-5
+
+
+### Reviews table
+Field	Type	Null	Key	Default	Extra
+rating	int(11)	YES		None	
+created_at	datetime	NO		None	
+updated_at	datetime	NO		None	
+user_guid	varchar(60)	YES	MUL	None	
+dog_guid	varchar(60)	YES	MUL	None	
+subcategory_name	varchar(60)	YES		None	
+test_name	varchar(60)	YES		None	
+
+### Sample Data
+rating	created_at	updated_at	user_guid	dog_guid	subcategory_name	test_name
+0	2014-05-01 19:08:00	2014-05-01 19:08:00	ce3c42ca-7144-11e5-ba71-058fbc01cf0b	ce3ac77e-7144-11e5-ba71-058fbc01cf0b	Empathy	Yawn Warm-up
+0	2014-05-01 22:01:36	2014-05-01 22:01:36	ce2acd7e-7144-11e5-ba71-058fbc01cf0b	ce2aedcc-7144-11e5-ba71-058fbc01cf0b	Empathy	Eye Contact Warm-up
+2	2014-05-01 22:05:37	2014-05-01 22:05:37	ce2acd7e-7144-11e5-ba71-058fbc01cf0b	ce2aedcc-7144-11e5-ba71-058fbc01cf0b	Empathy	Eye Contact Game
+
+
+
+
+### complete_tests table
+Field	Type	Null	Key	Default	Extra
+created_at	datetime	NO		None	
+updated_at	datetime	NO		None	
+user_guid	varchar(60)	YES	MUL	None	
+dog_guid	varchar(60)	YES	MUL	None	
+test_name	varchar(60)	YES		None	
+subcategory_name	varchar(60)	YES		None	
+
+### Sample Data
+created_at	updated_at	user_guid	dog_guid	test_name	subcategory_name
+2013-02-05 18:26:54	2013-02-05 18:26:54	None	fd27b86c-7144-11e5-ba71-058fbc01cf0b	Yawn Warm-up	Empathy
+2013-02-05 18:31:03	2013-02-05 18:31:03	None	fd27b86c-7144-11e5-ba71-058fbc01cf0b	Yawn Game	Empathy
+2013-02-05 18:32:04	2013-02-05 18:32:04	None	fd27b86c-7144-11e5-ba71-058fbc01cf0b	Eye Contact Warm-up	Empathy
+
+
+### site_activities table
+Field	Type	Null	Key	Default	Extra
+activity_type	varchar(150)	YES	MUL	None	
+description	text	YES		None	
+membership_id	int(11)	YES		None	
+category_id	int(11)	YES		None	
+script_id	int(11)	YES		None	
+created_at	datetime	NO		None	
+updated_at	datetime	NO		None	
+user_guid	varchar(255)	YES	MUL	None	
+script_detail_id	int(11)	YES		None	
+test_name	varchar(255)	YES		None	
+dog_guid	varchar(255)	YES	MUL	None	
+
+### Sample Data
+activity_type	description	membership_id	category_id	script_id	created_at	updated_at	user_guid	script_detail_id	test_name	dog_guid
+point_in_cat	User has made it to id 404	None	None	1	2013-07-25 19:36:18	2013-07-25 19:36:18	ce2b574e-7144-11e5-ba71-058fbc01cf0b	404	Delayed Cup Game	fd48c9a8-7144-11e5-ba71-058fbc01cf0b
+point_in_cat	User has made it to id 384	None	None	1	2013-07-25 19:39:01	2013-07-25 19:39:01	ce2ace3c-7144-11e5-ba71-058fbc01cf0b	384	Delayed Cup Game	fd48393e-7144-11e5-ba71-058fbc01cf0b
+point_in_cat	User has made it to id 384	None	None	1	2013-07-25 19:39:17	2013-07-25 19:39:17	ce2b574e-7144-11e5-ba71-058fbc01cf0b	384	Delayed Cup Game	fd48c9a8-7144-11e5-ba71-058fbc01cf0b
+
+
+### exam_answers table
+Field	Type	Null	Key	Default	Extra
+script_detail_id	int(11)	YES		None	
+subcategory_name	varchar(255)	YES		None	
+test_name	varchar(255)	YES		None	
+step_type	varchar(255)	YES		None	
+start_time	datetime	YES		None	
+end_time	datetime	YES		None	
+loop_number	int(11)	YES		None	
+dog_guid	varchar(60)	YES		None	
+
+### Sample Data
+script_detail_id	subcategory_name	test_name	step_type	start_time	end_time	loop_number	dog_guid
+537	Sociability	Sociability	question	2013-02-05 03:58:13	2013-10-02 20:18:06	0	fd27b272-7144-11e5-ba71-058fbc01cf0b
+538	Emotions	Emotions	question	2013-02-05 03:58:31	2013-10-02 20:18:06	0	fd27b272-7144-11e5-ba71-058fbc01cf0b
+539	Shy/Boldness	Shy/Boldness	question	2013-02-05 03:59:03	2013-10-02 20:18:06	0	fd27b272-7144-11e5-ba71-058fbc01cf0b
