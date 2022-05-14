@@ -1,0 +1,13 @@
+Pyramid Analysis Plans
+
+# SMART goal 
+To increase the number of tests customers complete 
+
+## The variables you will use to assess the goal
+Var 1: Dognition personality dimensions -> Is it plausible that certain personalities of dogs might be more or less likely to complete tests? - Q1-Q7
+
+Var 2: Dognition breed -> Assess whether dog breeds are related to the number of tests completed? - Q8 - Q14
+Var 3: Dognition breed_type -> Assess whether dog breeds and neutering are related to the number of tests completed? - Q14-Q18
+Var 4: Exame the relationship between the speed of game completion and number of games completed is best achieved through creating a scatter plot with a best fit line and/or running a statistical regression analysis. 
+Var 5: During which weekdays do Dognition users complete the most tests?
+Var 6: Which states and countries have the most Dognition users?
