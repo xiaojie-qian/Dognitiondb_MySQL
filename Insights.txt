@@ -8,12 +8,28 @@ However, there are not appreciable differences in the number of tests completed 
 2. Breed group vs total completed tests
 There are total 8 different breed group and one Null row.
 Herding and Sporting breed_groups complete the most tests, while Hound breed groups complete the least tests. 
-It is interesting to see if our marketing focus has targeted Herding and Sporting more? 
+-> It is interesting to see if our marketing focus has targeted Herding and Sporting more? 
 
 3. Breed type vs total completed tests
 There are 4 breed types.
 There does not appear to be an appreciable difference between number of tests completed by dogs of different breed types.
 A dog's breed_type doesn't seem to have a strong relationship with how many tests a dog completed
-Neutered dogs, on average, seem to finish 1-2 more tests than non-neutered dogs
+Neutered dogs, on average, seem to finish 1-2 more tests than non-neutered dogs. 
+-> Marketing can focus on neutered dogs. 
 
 4. Test duration vs total completed tests
+There are 40 different tests. Longer duration leads to less completed tests in the most cases. 
+-> It is better to suggest shorten the duration of each test.
+
+5. Time vs total completed tests
+All analysis suggest that customers are most likely to complete tests around Sunday and Monday, and least likely to complete tests around the end of the work week, on Thursday and Friday. 
+-> Check if the tests on those days are different from other days or if there were more promotion from Sat. to Mon.
+
+6. Geography vs total completed tests
+-- Top 5 US states are CA, NY, TX, FL and NC.
+-- The number of unique Dognition users in California is more than two times greater than any other state.
+-> Were there spcial promotion in CA? It is a lot to learn that why CA attracts so many customers compared to other states. 
+
+-- The United States, Canada, Australia, and Great Britain are the countries with the most Dognition users. 
+-- After Great Britain, the number of Dognition users drops quite a lot. This analysis suggests that Dognition is most likely to be used by English-speaking countries.
+-> Is there any language barrier in marketing? 
