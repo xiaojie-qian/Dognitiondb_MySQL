@@ -210,3 +210,131 @@ GROUP BY c.test_name
 ORDER BY AvgDuration desc;
 -- Total 40 tests completed, longer duration of test leads to less completed tests. 
 
+-- Investigate where the customers have preference to do more tests on certain weekdays
+-- Q20: During which weekdays do Dognition users complete the most tests?
+%%sql 
+SELECT DAYOFWEEK(c.created_at) AS DOW,
+CASE WHEN DAYOFWEEK(c.created_at) = 1 THEN 'Su'
+     WHEN DAYOFWEEK(c.created_at) = 2 THEN 'Mo'
+     WHEN DAYOFWEEK(c.created_at) = 3 THEN 'Tu'
+     WHEN DAYOFWEEK(c.created_at) = 4 THEN 'We'
+     WHEN DAYOFWEEK(c.created_at) = 5 THEN 'Th'
+     WHEN DAYOFWEEK(c.created_at) = 6 THEN 'Fr'
+ELSE 'Sa' END AS wdlabel,
+COUNT(c.created_at) AS test_num
+FROM (SELECT DISTINCT dog_guid
+      FROM dogs d, users u
+      WHERE d.user_guid = u.user_guid
+      AND (d.exclude = 0 OR d.exclude IS NULL)
+      AND (u.exclude = 0 OR u.exclude IS NULL)) AS unique_dogs,
+complete_tests c
+WHERE  unique_dogs.dog_guid = c.dog_guid
+GROUP BY DOW, wdlabel
+ORDER BY test_num desc;
+-- Sunday is the day when the most tests are completed and Friday is the day when the fewest tests are completed.
+
+-- Q20: add year to observe the result.
+%%sql 
+SELECT EXTRACT(YEAR FROM c.created_at) AS year, DAYOFWEEK(c.created_at) AS dow,
+CASE WHEN DAYOFWEEK(c.created_at) = 1 THEN 'Su'
+     WHEN DAYOFWEEK(c.created_at) = 2 THEN 'Mo'
+     WHEN DAYOFWEEK(c.created_at) = 3 THEN 'Tu'
+     WHEN DAYOFWEEK(c.created_at) = 4 THEN 'We'
+     WHEN DAYOFWEEK(c.created_at) = 5 THEN 'Th'
+     WHEN DAYOFWEEK(c.created_at) = 6 THEN 'Fr'
+ELSE 'Sa' END AS wdlabel,
+COUNT(c.created_at) AS test_num
+FROM (SELECT DISTINCT dog_guid
+      FROM dogs d, users u
+      WHERE d.user_guid = u.user_guid
+      AND (d.exclude = 0 OR d.exclude IS NULL)
+      AND (u.exclude = 0 OR u.exclude IS NULL)) AS unique_dogs,
+complete_tests c
+WHERE  unique_dogs.dog_guid = c.dog_guid
+GROUP BY year, dow WITH ROLLUP;
+-- From 2013 to 2015, the qty of completed tests is increasing 
+-- Sundays always have a lot of completed tests, and Fridays always have the fewest or close to the fewest completed tests.
+
+-- Q21: Adjust time zone:  Most United States states (excluding Hawaii and Alaska) have a time zone of UTC time -5 hours (in the eastern-most regions) to -8 hours (in the western-most regions).
+%%sql 
+SELECT EXTRACT(YEAR FROM TIMESTAMPADD(HOUR,-6,c.created_at)) AS year, DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) AS dow,
+CASE WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 1 THEN 'Su'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 2 THEN 'Mo'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 3 THEN 'Tu'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 4 THEN 'We'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 5 THEN 'Th'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 6 THEN 'Fr'
+ELSE 'Sa' END AS wdlabel,
+COUNT(TIMESTAMPADD(HOUR,-6,c.created_at)) AS test_num
+FROM (SELECT DISTINCT dog_guid
+      FROM dogs d, users u
+      WHERE d.user_guid = u.user_guid
+      AND (d.exclude = 0 OR d.exclude IS NULL)
+      AND (u.exclude = 0 OR u.exclude IS NULL)) AS unique_dogs,
+complete_tests c
+WHERE  unique_dogs.dog_guid = c.dog_guid
+GROUP BY year, dow WITH ROLLUP;
+-- Customers are most likely to complete tests around Sunday and Monday, and least likely to complete tests around the end of the work week, on Thursday and Friday,
+
+-- Adjust weekday from Monday to Sunday
+%%sql 
+SELECT EXTRACT(YEAR FROM TIMESTAMPADD(HOUR,-6,c.created_at)) AS year, DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) AS dow,
+CASE WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 1 THEN 'Su'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 2 THEN 'Mo'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 3 THEN 'Tu'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 4 THEN 'We'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 5 THEN 'Th'
+     WHEN DAYOFWEEK(TIMESTAMPADD(HOUR,-6,c.created_at)) = 6 THEN 'Fr'
+ELSE 'Sa' END AS wdlabel,
+COUNT(TIMESTAMPADD(HOUR,-6,c.created_at)) AS test_num
+FROM (SELECT DISTINCT dog_guid
+      FROM dogs d, users u
+      WHERE d.user_guid = u.user_guid
+      AND (d.exclude = 0 OR d.exclude IS NULL)
+      AND (u.exclude = 0 OR u.exclude IS NULL)) AS unique_dogs,
+complete_tests c
+WHERE  unique_dogs.dog_guid = c.dog_guid
+GROUP BY year, dow
+ORDER BY year, FIELD(wdlabel,'Mo','Tu','We','Th','Fr','Sa','Su');
+
+-- Investigate which states and countries have the most Dognition users?
+-- Q22: Which 5 states within the United States have the most Dognition customers?
+%%sql
+SELECT state, COUNT( DISTINCT s2.user_guid) AS user_num
+FROM (SELECT DISTINCT c.dog_guid
+     FROM complete_tests c
+     WHERE c.dog_guid IS NOT NULL
+     GROUP BY c.dog_guid) AS s1,
+     (SELECT state, d.dog_guid, u.user_guid
+     FROM users u, dogs d
+     WHERE u.user_guid = d.user_guid 
+     AND (d.exclude = 0 OR d.exclude IS NULL)
+     AND (u.exclude = 0 OR u.exclude IS NULL)  
+     AND country = 'US' ) AS s2
+WHERE s1.dog_guid = s2.dog_guid
+GROUP BY state
+ORDER BY user_num desc;
+-- Top 5 US states are CA, NY, TX, FL and NC
+-- The number of unique Dognition users in California is more than two times greater than any other state.
+
+-- Q23: Which 10 countries have the most Dognition customers?
+%%sql
+SELECT country, COUNT(DISTINCT s2.user_guid) AS user_num
+FROM (SELECT DISTINCT c.dog_guid
+      FROM complete_tests c
+     WHERE c.dog_guid IS NOT NULL
+     GROUP BY c.dog_guid) AS s1,
+     (SELECT country, d.dog_guid, u.user_guid
+     FROM users u, dogs d
+     WHERE u.user_guid = d.user_guid 
+     AND (d.exclude = 0 OR d.exclude IS NULL)
+     AND (u.exclude = 0 OR u.exclude IS NULL)) AS s2
+WHERE s1.dog_guid = s2.dog_guid
+GROUP BY country
+ORDER BY user_num desc
+LIMIT 10;
+-- The United States, Canada, Australia, and Great Britain are the countries with the most Dognition users. 
+-- N/A refers to "not applicable" which essentially means we have no usable country data from those rows.
+-- After Great Britain, the number of Dognition users drops quite a lot. This analysis suggests that Dognition is most likely to be used by English-speaking countries.
+
+-- <END>
