@@ -23,3 +23,5 @@ Step 4: Query to understand the dataset --- refer to SQL_ parctise
 Step 5: Query to answer the question, with help with Tableau - refer to SQL_analysis and tableau viz 
 Step 6: Answer the questions and note the insights: observations and further invesitgations
 Step 7: Create a story or a presentation 
+
+![image](https://user-images.githubusercontent.com/58776067/168444150-117eee93-03d0-42b1-930f-1d4c15321e86.png)
