@@ -15,7 +15,7 @@ To help Doginition increase the number of completed tests for its clients
 6. States in U.S 
 7. Countries 
 
-### Project description: 
+### Project description (Schwerpunkt): 
 1. Draft an analysis plan, using SPAPs method 
 2. Set a SMART goal 
 3. Define the questions concering the goal and find the variables 
