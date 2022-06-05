@@ -1,4 +1,4 @@
-# Dognitiondb_MySQL
+# Dognitiondb_MySQL 🐕
 1. Dognition is a company who provides its clients with unprecedented perspectives on dog's personality and capabilities. 
 Company website: https://www.dognition.com/
 2. The dataset is recorded from 2013 to 2015. For more detals, there is uploaded file about dataset and its schema. 
@@ -15,7 +15,7 @@ To help Doginition increase the number of completed tests for its clients
 6. States in U.S 
 7. Countries 
 
-## Project description (Schwerpunkt): 🐕
+## Project description (Schwerpunkt): 
 1. Draft an analysis plan, using SPAPs method 
 2. Set a SMART goal 
 3. Define the questions concering the goal and find the variables 
